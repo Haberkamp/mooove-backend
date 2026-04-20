@@ -17,9 +17,9 @@ class VideoLogForm
                     ->maxLength(255),
                 FileUpload::make('video')
                     ->required()
-                    ->disk('public')
+                    ->disk('s3')
                     ->directory('dance-classes/video-logs')
-                    ->visibility('public')
+                    ->visibility('private')
                     ->acceptedFileTypes([
                         'video/mp4',
                         'video/webm',

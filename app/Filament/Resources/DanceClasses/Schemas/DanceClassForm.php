@@ -23,9 +23,9 @@ class DanceClassForm
                     ->required(),
                 FileUpload::make('video')
                     ->required()
-                    ->disk('public')
+                    ->disk('s3')
                     ->directory('dance-classes/videos')
-                    ->visibility('public')
+                    ->visibility('private')
                     ->acceptedFileTypes([
                         'video/mp4',
                         'video/webm',

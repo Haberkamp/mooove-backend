@@ -18,9 +18,9 @@ class InstructorForm
                 FileUpload::make('avatar')
                     ->avatar()
                     ->image()
-                    ->disk('public')
+                    ->disk('s3')
                     ->directory('instructors/avatars')
-                    ->visibility('public')
+                    ->visibility('private')
                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
                     ->maxSize(2048),
             ]);
