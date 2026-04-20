@@ -17,6 +17,9 @@ class StudentsTable
                 TextColumn::make('name')
                     ->searchable()
                     ->sortable(),
+                TextColumn::make('email')
+                    ->searchable()
+                    ->sortable(),
             ])
             ->filters([
                 //
