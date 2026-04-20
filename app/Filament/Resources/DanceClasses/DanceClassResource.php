@@ -5,6 +5,7 @@ namespace App\Filament\Resources\DanceClasses;
 use App\Filament\Resources\DanceClasses\Pages\CreateDanceClass;
 use App\Filament\Resources\DanceClasses\Pages\EditDanceClass;
 use App\Filament\Resources\DanceClasses\Pages\ListDanceClasses;
+use App\Filament\Resources\DanceClasses\RelationManagers\VideoLogsRelationManager;
 use App\Filament\Resources\DanceClasses\Schemas\DanceClassForm;
 use App\Filament\Resources\DanceClasses\Tables\DanceClassesTable;
 use App\Models\DanceClass;
@@ -35,7 +36,7 @@ class DanceClassResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            VideoLogsRelationManager::class,
         ];
     }
 
