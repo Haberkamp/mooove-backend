@@ -15,7 +15,6 @@ test('a student can issue a mobile sanctum token', function () {
     $response = $this->postJson('/api/sanctum/token', [
         'email' => $student->email,
         'password' => 'password',
-        'device_name' => 'Test iPhone',
     ]);
 
     $response
@@ -32,6 +31,7 @@ test('a student can issue a mobile sanctum token', function () {
     expect($token)->not->toBeNull();
     expect($token?->tokenable_type)->toBe(Student::class);
     expect($token?->tokenable_id)->toBe($student->id);
+    expect($token?->name)->toStartWith('mobile-');
 });
 
 test('sanctum authenticates api requests as a student', function () {

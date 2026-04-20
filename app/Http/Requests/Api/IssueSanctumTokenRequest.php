@@ -25,7 +25,6 @@ class IssueSanctumTokenRequest extends FormRequest
         return [
             'email' => ['required', 'email'],
             'password' => ['required', 'string'],
-            'device_name' => ['required', 'string', 'max:255'],
         ];
     }
 }

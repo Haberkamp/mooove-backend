@@ -7,6 +7,7 @@ use App\Http\Requests\Api\IssueSanctumTokenRequest;
 use App\Models\Student;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class MobileAuthController extends Controller
@@ -25,7 +26,9 @@ class MobileAuthController extends Controller
             ]);
         }
 
-        $token = $student->createToken($credentials['device_name']);
+        $deviceName = 'mobile-'.Str::uuid()->toString();
+
+        $token = $student->createToken($deviceName);
 
         return response()->json([
             'token' => $token->plainTextToken,
