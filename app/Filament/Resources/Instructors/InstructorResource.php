@@ -5,7 +5,7 @@ namespace App\Filament\Resources\Instructors;
 use App\Filament\Resources\Instructors\Pages\CreateInstructor;
 use App\Filament\Resources\Instructors\Pages\EditInstructor;
 use App\Filament\Resources\Instructors\Pages\ListInstructors;
-use App\Filament\Resources\Instructors\RelationManagers\DanceClassesRelationManager;
+use App\Filament\Resources\Instructors\RelationManagers\DanceCoursesRelationManager;
 use App\Filament\Resources\Instructors\Schemas\InstructorForm;
 use App\Filament\Resources\Instructors\Tables\InstructorsTable;
 use App\Models\Instructor;
@@ -36,7 +36,7 @@ class InstructorResource extends Resource
     public static function getRelations(): array
     {
         return [
-            DanceClassesRelationManager::class,
+            DanceCoursesRelationManager::class,
         ];
     }
 

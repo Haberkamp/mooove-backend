@@ -2,9 +2,11 @@
 
 namespace App\Filament\Resources\DanceClasses\Schemas;
 
+use App\Models\DanceCourse;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
 
 class DanceClassForm
@@ -16,11 +18,27 @@ class DanceClassForm
                 TextInput::make('title')
                     ->required()
                     ->maxLength(255),
-                Select::make('instructor_id')
-                    ->relationship('instructor', 'name')
+                Select::make('dance_course_id')
+                    ->relationship('danceCourse', 'name')
                     ->searchable()
                     ->preload()
-                    ->required(),
+                    ->required()
+                    ->default(function ($livewire): ?int {
+                        if (! $livewire instanceof RelationManager) {
+                            return null;
+                        }
+
+                        if ($livewire::getRelationshipName() !== 'danceClasses') {
+                            return null;
+                        }
+
+                        $owner = $livewire->getOwnerRecord();
+
+                        return $owner instanceof DanceCourse ? $owner->getKey() : null;
+                    })
+                    ->disabled(fn ($livewire): bool => $livewire instanceof RelationManager
+                        && $livewire::getRelationshipName() === 'danceClasses')
+                    ->dehydrated(),
                 FileUpload::make('video')
                     ->required()
                     ->disk('s3')

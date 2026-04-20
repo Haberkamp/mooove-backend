@@ -19,6 +19,7 @@ class EditDanceClass extends EditRecord
             Action::make('openInstructor')
                 ->label(fn (): string => $this->record->instructor->name)
                 ->icon(Heroicon::OutlinedUser)
+                ->visible(fn (): bool => $this->record->instructor !== null)
                 ->url(fn (): string => InstructorResource::getUrl('edit', ['record' => $this->record->instructor], shouldGuessMissingParameters: true)),
             DeleteAction::make(),
         ];

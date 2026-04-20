@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\Instructors\RelationManagers;
+namespace App\Filament\Resources\DanceCourses\RelationManagers;
 
 use App\Filament\Resources\DanceClasses\DanceClassResource;
 use App\Filament\Resources\DanceClasses\Tables\DanceClassesTable;
@@ -16,7 +16,7 @@ class DanceClassesRelationManager extends RelationManager
 
     public function table(Table $table): Table
     {
-        return DanceClassesTable::configure($table, includeInstructorColumn: false)
+        return DanceClassesTable::configure($table, includeDanceCourseColumn: false, includeTeacherColumn: false)
             ->headerActions([
                 CreateAction::make(),
             ]);

@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\DanceClass;
-use App\Models\Instructor;
+use App\Models\DanceCourse;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,7 +20,7 @@ class DanceClassFactory extends Factory
     {
         return [
             'title' => fake()->sentence(3),
-            'instructor_id' => Instructor::factory(),
+            'dance_course_id' => DanceCourse::factory(),
             'video' => 'dance-classes/videos/'.fake()->uuid().'.mp4',
             'spotify_url' => 'https://open.spotify.com/track/'.fake()->bothify('??##########'),
         ];

@@ -8,19 +8,35 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
-#[Fillable(['title', 'instructor_id', 'video', 'spotify_url'])]
+#[Fillable(['title', 'dance_course_id', 'video', 'spotify_url'])]
 class DanceClass extends Model
 {
     /** @use HasFactory<DanceClassFactory> */
     use HasFactory;
 
     /**
-     * @return BelongsTo<Instructor, $this>
+     * @return BelongsTo<DanceCourse, $this>
      */
-    public function instructor(): BelongsTo
+    public function danceCourse(): BelongsTo
     {
-        return $this->belongsTo(Instructor::class);
+        return $this->belongsTo(DanceCourse::class);
+    }
+
+    /**
+     * @return HasOneThrough<Instructor, DanceCourse, $this>
+     */
+    public function instructor(): HasOneThrough
+    {
+        return $this->hasOneThrough(
+            Instructor::class,
+            DanceCourse::class,
+            'id',
+            'id',
+            'dance_course_id',
+            'instructor_id',
+        );
     }
 
     /**

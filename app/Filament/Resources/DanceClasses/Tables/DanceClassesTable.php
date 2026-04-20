@@ -13,21 +13,31 @@ use Illuminate\Database\Eloquent\Builder;
 
 class DanceClassesTable
 {
-    public static function configure(Table $table, bool $includeInstructorColumn = true): Table
-    {
+    public static function configure(
+        Table $table,
+        bool $includeDanceCourseColumn = true,
+        bool $includeTeacherColumn = true,
+    ): Table {
         $columns = [
             TextColumn::make('title')
                 ->searchable()
                 ->sortable(),
         ];
 
-        if ($includeInstructorColumn) {
-            $columns[] = TextColumn::make('instructor.name')
-                ->label('Instructor')
+        if ($includeDanceCourseColumn) {
+            $columns[] = TextColumn::make('danceCourse.name')
+                ->label('Course')
+                ->searchable()
+                ->sortable();
+        }
+
+        if ($includeTeacherColumn) {
+            $columns[] = TextColumn::make('danceCourse.instructor.name')
+                ->label('Teacher')
                 ->searchable()
                 ->sortable()
-                ->url(fn (DanceClass $record): ?string => $record->instructor
-                    ? InstructorResource::getUrl('edit', ['record' => $record->instructor], shouldGuessMissingParameters: true)
+                ->url(fn (DanceClass $record): ?string => $record->danceCourse?->instructor
+                    ? InstructorResource::getUrl('edit', ['record' => $record->danceCourse->instructor], shouldGuessMissingParameters: true)
                     : null);
         }
 
@@ -37,8 +47,10 @@ class DanceClassesTable
             ->openUrlInNewTab()
             ->limit(40);
 
-        if ($includeInstructorColumn) {
-            $table = $table->modifyQueryUsing(fn (Builder $query) => $query->with('instructor'));
+        if ($includeDanceCourseColumn || $includeTeacherColumn) {
+            $table = $table->modifyQueryUsing(
+                fn (Builder $query) => $query->with(['danceCourse.instructor']),
+            );
         }
 
         return $table
