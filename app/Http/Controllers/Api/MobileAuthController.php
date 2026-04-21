@@ -6,9 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\IssueSanctumTokenRequest;
 use App\Models\Student;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response;
 
 class MobileAuthController extends Controller
 {
@@ -35,5 +38,13 @@ class MobileAuthController extends Controller
             'token_type' => 'Bearer',
             'student' => $student,
         ]);
+    }
+
+    public function destroy(Request $request): Response
+    {
+        $request->user()->currentAccessToken()->delete();
+        Auth::guard('sanctum')->forgetUser();
+
+        return response()->noContent();
     }
 }

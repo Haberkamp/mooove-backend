@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Route;
 Route::post('/sanctum/token', [MobileAuthController::class, 'store']);
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/sanctum/logout', [MobileAuthController::class, 'destroy']);
+
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
