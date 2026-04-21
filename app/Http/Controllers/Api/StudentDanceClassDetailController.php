@@ -24,11 +24,17 @@ class StudentDanceClassDetailController extends Controller
 
         $danceClass->loadMissing('danceCourse.instructor');
 
-        return response()->json([
-            'name' => $danceClass->title,
-            'instructor' => $danceClass->danceCourse->instructor->name,
-            'spotify_url' => $danceClass->spotify_url,
-            'video_logs' => [],
-        ]);
+        return response()->json(array_merge(
+            [
+                'name' => $danceClass->title,
+                'instructor' => $danceClass->danceCourse->instructor->name,
+                'spotify_url' => $danceClass->spotify_url,
+                'video_logs' => [],
+            ],
+            $danceClass->previewImageTemporaryUrlPayload() ?? [
+                'preview_url' => null,
+                'preview_expires_at' => null,
+            ],
+        ));
     }
 }

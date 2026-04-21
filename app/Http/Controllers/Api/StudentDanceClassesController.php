@@ -24,11 +24,17 @@ class StudentDanceClassesController extends Controller
             ->with(['danceCourse.instructor'])
             ->orderBy('title')
             ->get()
-            ->map(fn (DanceClass $class) => [
-                'id' => $class->id,
-                'name' => $class->title,
-                'author' => $class->danceCourse->instructor->name,
-            ]);
+            ->map(fn (DanceClass $class) => array_merge(
+                [
+                    'id' => $class->id,
+                    'name' => $class->title,
+                    'author' => $class->danceCourse->instructor->name,
+                ],
+                $class->previewImageTemporaryUrlPayload() ?? [
+                    'preview_url' => null,
+                    'preview_expires_at' => null,
+                ],
+            ));
 
         return response()->json($rows);
     }

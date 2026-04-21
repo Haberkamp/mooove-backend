@@ -54,6 +54,18 @@ class DanceClassForm
                         'mov' => 'video/quicktime',
                     ])
                     ->maxSize(1024 * 1024),
+                FileUpload::make('preview_image')
+                    ->label('Preview image')
+                    ->disk('s3')
+                    ->directory('dance-classes/preview-images')
+                    ->visibility('private')
+                    ->image()
+                    ->acceptedFileTypes([
+                        'image/jpeg',
+                        'image/png',
+                        'image/webp',
+                    ])
+                    ->maxSize(512 * 1024),
                 TextInput::make('spotify_url')
                     ->label('Spotify song URL')
                     ->required()

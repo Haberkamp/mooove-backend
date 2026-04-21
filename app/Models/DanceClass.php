@@ -9,8 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
+use Illuminate\Support\Facades\Storage;
 
-#[Fillable(['title', 'dance_course_id', 'video', 'spotify_url'])]
+#[Fillable(['title', 'dance_course_id', 'video', 'preview_image', 'spotify_url'])]
 class DanceClass extends Model
 {
     /** @use HasFactory<DanceClassFactory> */
@@ -45,5 +46,23 @@ class DanceClass extends Model
     public function videoLogs(): HasMany
     {
         return $this->hasMany(VideoLog::class);
+    }
+
+    /**
+     * @return array{preview_url: string, preview_expires_at: string}|null
+     */
+    public function previewImageTemporaryUrlPayload(): ?array
+    {
+        $path = $this->preview_image;
+        if ($path === null || $path === '') {
+            return null;
+        }
+
+        $expires = now()->addHour();
+
+        return [
+            'preview_url' => Storage::disk('s3')->temporaryUrl($path, $expires),
+            'preview_expires_at' => $expires->toIso8601String(),
+        ];
     }
 }
