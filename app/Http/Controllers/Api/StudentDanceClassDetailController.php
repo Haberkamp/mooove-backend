@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\DanceClass;
 use App\Models\Student;
+use App\Services\Spotify\SpotifyTrackCatalog;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class StudentDanceClassDetailController extends Controller
 {
-    public function __invoke(Request $request, DanceClass $danceClass): JsonResponse
+    public function __invoke(Request $request, DanceClass $danceClass, SpotifyTrackCatalog $spotifyTrackCatalog): JsonResponse
     {
         /** @var Student $student */
         $student = $request->user();
@@ -29,6 +30,7 @@ class StudentDanceClassDetailController extends Controller
                 'name' => $danceClass->title,
                 'instructor' => $danceClass->danceCourse->instructor->name,
                 'spotify_url' => $danceClass->spotify_url,
+                'song' => $spotifyTrackCatalog->fetchTrackFromUrl($danceClass->spotify_url),
                 'video_logs' => [],
             ],
             $danceClass->previewImageTemporaryUrlPayload() ?? [
